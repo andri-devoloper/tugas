@@ -1,8 +1,18 @@
 import { retrieveData, retrieveDataById } from "@/lib/firebase/service";
 import { NextRequest, NextResponse } from "next/server";
-import { getFirestore, collection, addDoc, getDocs, where, query } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  where,
+  query,
+} from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { initializeFirebase } from "@/lib/firebase/init";
+
+// Inisialisasi Firebase
+initializeFirebase(); // Tambahkan ini
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);

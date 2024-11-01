@@ -11,9 +11,6 @@ import {
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { initializeFirebase } from "@/lib/firebase/init";
 
-// Inisialisasi Firebase
-initializeFirebase(); // Tambahkan ini
-
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const id = searchParams.get("id");

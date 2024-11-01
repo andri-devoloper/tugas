@@ -10,12 +10,13 @@ type FormData = {
 };
 
 export default function Home() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     namaLengkap: "",
     noAbsen: "",
     kelas: "",
     file: null,
   });
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

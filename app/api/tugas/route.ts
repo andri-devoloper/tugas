@@ -1,3 +1,4 @@
+// File: app/api/tugas/route.ts
 import { retrieveData, retrieveDataById } from "@/lib/firebase/service";
 import { NextRequest, NextResponse } from "next/server";
 import {
@@ -9,7 +10,10 @@ import {
   query,
 } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { initializeFirebase } from "@/lib/firebase/init";
+import app from "@/lib/firebase/init"; // Impor default `app`
+
+const db = getFirestore(app); // Inisialisasi Firestore
+const storage = getStorage(app); // Inisialisasi Storage
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -19,7 +23,7 @@ export async function GET(request: NextRequest) {
     if (detailProduct) {
       return NextResponse.json({
         status: 200,
-        message: 200,
+        message: "Success",
         data: detailProduct,
       });
     }
@@ -43,9 +47,6 @@ export async function POST(request: NextRequest) {
   const file = formData.get("images") as File | null;
 
   try {
-    const db = getFirestore();
-    const storage = getStorage();
-
     // Cek duplikat namaLengkap
     const tugasRef = collection(db, "tugas");
     const q = query(tugasRef, where("namaLengkap", "==", namaLengkap));

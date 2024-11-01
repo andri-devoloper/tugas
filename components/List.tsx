@@ -40,6 +40,7 @@ const ListTable: React.FC = () => {
                     setError(result.message);
                 }
             } catch (err) {
+                console.error(err);
                 setError('Error fetching data');
             } finally {
                 setLoading(false);

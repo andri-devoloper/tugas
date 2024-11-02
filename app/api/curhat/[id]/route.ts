@@ -2,15 +2,12 @@ import app from "@/lib/firebase/init";
 import { deleteDoc, doc, getFirestore } from "firebase/firestore";
 import { NextRequest, NextResponse } from "next/server";
 
-
-
 const db = getFirestore(app);
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+
+export async function DELETE(request: NextRequest) {
   try {
-    const { id } = params; // Ambil ID dari URL
+    // Get the 'id' parameter from the request URL
+    const id = request.nextUrl.pathname.split("/").pop();
 
     if (!id) {
       return NextResponse.json(
@@ -19,10 +16,10 @@ export async function DELETE(
       );
     }
 
-    // Referensi dokumen di Firestore berdasarkan ID
+    // Reference the document in Firestore using the ID
     const docRef = doc(db, "curhat", id);
 
-    // Hapus dokumen dari Firestore
+    // Delete the document from Firestore
     await deleteDoc(docRef);
 
     return NextResponse.json(

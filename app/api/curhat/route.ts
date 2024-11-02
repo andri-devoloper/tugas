@@ -4,8 +4,6 @@ import {
   collection,
   addDoc,
   getFirestore,
-  deleteDoc,
-  doc,
 } from "firebase/firestore";
 import { retrieveData, retrieveDataById } from "@/lib/firebase/service";
 

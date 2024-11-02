@@ -56,7 +56,7 @@ export default function Curhat() {
                                 htmlFor="message"
                                 className="block mb-2 text-sm font-medium text-gray-900"
                             >
-                                Your message
+                                Your curhat
                             </label>
                             <textarea
                                 id="message"
@@ -64,7 +64,7 @@ export default function Curhat() {
                                 name="curhat"
                                 value={formData.curhat}
                                 onChange={handleChange}
-                                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+                                className="w-full px-4 py-2 border-2 border-blue-300  rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
                                 style={{ width: "100%" }}
                                 placeholder="Your message..."
                             ></textarea>

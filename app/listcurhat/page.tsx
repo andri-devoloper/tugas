@@ -1,9 +1,9 @@
-import List from '@/components/List';
+import ListCurhat from '@/components/Curhat';
 
 function Lists() {
     return (
         <div>
-            <List />
+            <ListCurhat />
         </div>
     );
 }

@@ -19,10 +19,11 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
 
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -102,15 +103,21 @@ export default function Home() {
 
           <div>
             <label className="block text-gray-700">Kelas</label>
-            <input
-              type="text"
+            <select
               name="kelas"
               value={formData.kelas}
               onChange={handleChange}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
-              placeholder="Masukkan Kelas"
               required
-            />
+            >
+              <option value="" disabled>
+                Pilih Kelas
+              </option>
+              <option value="3.1">Kelas 3.1</option>
+              <option value="3.2">Kelas 3.2</option>
+              <option value="3.3">Kelas 3.3</option>
+              <option value="3.4">Kelas 3.4</option>
+            </select>
           </div>
 
           <div>

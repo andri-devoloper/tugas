@@ -1,10 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import app from "@/lib/firebase/init";
-import {
-  collection,
-  addDoc,
-  getFirestore,
-} from "firebase/firestore";
+import { collection, addDoc, getFirestore } from "firebase/firestore";
 import { retrieveData, retrieveDataById } from "@/lib/firebase/service";
 
 const db = getFirestore(app);
@@ -12,6 +8,7 @@ const db = getFirestore(app);
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const id = searchParams.get("id");
+
   if (id) {
     const detailProduct = await retrieveDataById("curhat", id);
     if (detailProduct) {
@@ -53,12 +50,15 @@ export async function POST(request: NextRequest) {
       message: "Curhat berhasil diterima",
       data: { id: docRef.id, ...data },
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const errorMessage =
+      error instanceof Error
+        ? error.message
+        : "Terjadi kesalahan yang tidak terduga";
     return NextResponse.json({
       status: 500,
       message: "Error saving data",
-      error: error.message || "Terjadi kesalahan yang tidak terduga",
+      error: errorMessage,
     });
   }
 }
-

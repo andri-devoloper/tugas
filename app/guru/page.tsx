@@ -1,8 +1,8 @@
-'use client'
+'use client';
 import { useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-
-import Gurus from '@/components/Guru'
+import Gurus from '@/components/Guru';
+import { Suspense } from 'react';
 
 export default function GuruPage() {
     const router = useRouter();
@@ -20,8 +20,10 @@ export default function GuruPage() {
     }, [router, searchParams]);
 
     return (
-        <div>
-            <Gurus />
-        </div>
+        <Suspense fallback={<div>Loading...</div>}>
+            <div>
+                <Gurus />
+            </div>
+        </Suspense>
     );
 }

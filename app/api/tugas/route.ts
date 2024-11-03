@@ -8,6 +8,8 @@ import {
   getDocs,
   where,
   query,
+  doc,
+  updateDoc,
 } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import app from "@/lib/firebase/init"; // Impor default `app`
@@ -44,6 +46,7 @@ export async function POST(request: NextRequest) {
   const namaLengkap = formData.get("namaLengkap");
   const noAbsen = formData.get("noAbsen");
   const kelas = formData.get("kelas");
+  const nilai = "0";
   const file = formData.get("images") as File | null;
 
   try {
@@ -68,7 +71,7 @@ export async function POST(request: NextRequest) {
       fileURL = await getDownloadURL(uploadResult.ref);
     }
 
-    const data = { namaLengkap, noAbsen, kelas, fileURL };
+    const data = { namaLengkap, noAbsen, kelas, nilai, fileURL };
     const docRef = await addDoc(collection(db, "tugas"), data);
 
     return NextResponse.json({
@@ -80,6 +83,41 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       status: 500,
       message: "Error saving data",
+      error,
+    });
+  }
+}
+
+export async function PUT(request: NextRequest) {
+  try {
+    const { namaLengkap, noAbsen, kelas, nilai } = await request.json();
+
+    // Cari dokumen yang cocok berdasarkan "namaLengkap"
+    const tugasRef = collection(db, "tugas");
+    const q = query(tugasRef, where("namaLengkap", "==", namaLengkap));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      return NextResponse.json({
+        status: 404,
+        message: "Data not found",
+      });
+    }
+
+    // Ambil ID dokumen dan perbarui data
+    const docId = querySnapshot.docs[0].id;
+    const docRef = doc(db, "tugas", docId);
+
+    await updateDoc(docRef, { noAbsen, kelas, nilai });
+
+    return NextResponse.json({
+      status: 200,
+      message: "Data updated successfully",
+    });
+  } catch (error) {
+    return NextResponse.json({
+      status: 500,
+      message: "Error updating data",
       error,
     });
   }

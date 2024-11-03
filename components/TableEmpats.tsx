@@ -8,6 +8,7 @@ interface DataItem {
     noAbsen: string;
     kelas: string;
     fileURL: string
+    nilai: string
     // Add any other properties you expect here
 }
 interface ApiResponse {
@@ -34,8 +35,12 @@ const ListTable: React.FC = () => {
                 if (result.status === 200) {
                     setDataList(result.data);
                     // Extract unique classes
-                    const classes = Array.from(new Set(result.data.map((item) => item.kelas)));
-                    setUniqueClasses(classes);
+                    const filteredData = result.data.filter((item) => item.kelas === '3.4');
+                    const sortedData = filteredData.sort((a, b) => {
+                        return Number(a.noAbsen) - Number(b.noAbsen);
+                    });
+
+                    setDataList(sortedData)
                 } else {
                     setError(result.message);
                 }
@@ -53,13 +58,10 @@ const ListTable: React.FC = () => {
     if (loading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;
 
-    const filteredDataList = selectedClass ? dataList.filter(data => data.kelas === selectedClass) : dataList;
-
-
-    const totalPages = Math.ceil(filteredDataList.length / itemsPerPage);
+    const totalPages = Math.ceil(dataList.length / itemsPerPage);
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = filteredDataList.slice(indexOfFirstItem, indexOfLastItem);
+    const currentItems = dataList.slice(indexOfFirstItem, indexOfLastItem);
 
     const handleNextPage = () => {
         if (currentPage < totalPages) {
@@ -76,21 +78,6 @@ const ListTable: React.FC = () => {
     return (
         <section className="antialiased bg-gray-100 text-gray-600 h-screen px-10">
             <div className="flex flex-col pt-5 h-full">
-                {/* Filter Dropdown */}
-                <div className="mb-4">
-                    <label htmlFor="classFilter" className="mr-2">Filter by Kelas:</label>
-                    <select
-                        id="classFilter"
-                        value={selectedClass}
-                        onChange={(e) => setSelectedClass(e.target.value)}
-                        className="border rounded p-2"
-                    >
-                        <option value="">Select Class</option> {/* Changed from "All Classes" to "Select Class" */}
-                        {uniqueClasses.map((kelas) => (
-                            <option key={kelas} value={kelas}>{kelas}</option>
-                        ))}
-                    </select>
-                </div>
                 {/* Table */}
                 <div className="w-full mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
                     <header className="px-5 py-4 border-b border-gray-100">
@@ -114,6 +101,9 @@ const ListTable: React.FC = () => {
                                             <div className="font-semibold text-left">Kelas</div>
                                         </th>
                                         <th className="p-2 whitespace-nowrap">
+                                            <div className="font-semibold text-left">Nilai</div>
+                                        </th>
+                                        <th className="p-2 whitespace-nowrap">
                                             <div className="font-semibold text-center">Show</div>
                                         </th>
                                     </tr>
@@ -122,7 +112,7 @@ const ListTable: React.FC = () => {
                                     {currentItems.map((data, index) => (
                                         <tr key={index}>
                                             <td className="p-2 whitespace-nowrap">
-                                                <div className="text-left">{index + 1}</div>
+                                                <div className="text-left">{indexOfFirstItem + index + 1}</div>
                                             </td>
                                             <td className="p-2 whitespace-nowrap">
                                                 <div className="text-left">{data.namaLengkap}</div>
@@ -132,6 +122,9 @@ const ListTable: React.FC = () => {
                                             </td>
                                             <td className="p-2 whitespace-nowrap">
                                                 <div className="text-left font-medium text-green-500">{data.kelas}</div>
+                                            </td>
+                                            <td className="p-2 whitespace-nowrap">
+                                                <div className="text-left font-medium text-green-500">{data.nilai}</div>
                                             </td>
                                             <td className="p-2 whitespace-nowrap">
                                                 <Link href={data.fileURL}>

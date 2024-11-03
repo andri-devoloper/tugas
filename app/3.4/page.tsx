@@ -1,4 +1,4 @@
-import List from '@/components/List';
+import List from '@/components/TableEmpats';
 
 function Lists() {
     return (

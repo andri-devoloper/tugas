@@ -20,8 +20,6 @@ const ListTable: React.FC = () => {
     const [dataList, setDataList] = useState<DataItem[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [selectedClass, setSelectedClass] = useState<string>('');
-    const [uniqueClasses, setUniqueClasses] = useState<string[]>([]);
 
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(10);

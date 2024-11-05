@@ -1,7 +1,6 @@
 
 
 import Gurus from '@/components/Guru';
-import Upload from '@/components/Upload';
 
 
 export default function GuruPage() {
@@ -11,9 +10,7 @@ export default function GuruPage() {
             <div>
                 <Gurus />
             </div>
-            <div>
-                <Upload />
-            </div>
+          
         </div>
     );
 }

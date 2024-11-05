@@ -18,7 +18,7 @@ const ListTable: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [loadingId, setLoadingId] = useState<string | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(10);
+    const [itemsPerPage] = useState(90);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -90,7 +90,7 @@ const ListTable: React.FC = () => {
                                 <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
                                     <tr>
                                         <th className="p-2 whitespace-nowrap">
-                                            <div className="font-semibold text-left">#</div>
+                                            <div className="font-semibold text-left" style={{ minWidth: '100px' }}>#</div>
                                         </th>
                                         <th className="p-2 whitespace-nowrap">
                                             <div className="font-semibold text-left">Diskrisi</div>
@@ -106,7 +106,7 @@ const ListTable: React.FC = () => {
                                             <td className="p-2 whitespace-nowrap">
                                                 <div className="text-left">{indexOfFirstItem + index + 1}</div>
                                             </td>
-                                            <td className="p-2 whitespace-nowrap">
+                                            <td className="p-2 overflow-x-auto" style={{ whiteSpace: 'normal', wordBreak: 'break-word' }}>
                                                 <div className="text-left">{data.curhat}</div>
                                             </td>
                                             <td className="p-2 whitespace-nowrap w-md">

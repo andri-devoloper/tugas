@@ -90,7 +90,7 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
-    const { namaLengkap, noAbsen, kelas, nilai } = await request.json();
+    const { namaLengkap, nilai } = await request.json();
 
     // Cari dokumen yang cocok berdasarkan "namaLengkap"
     const tugasRef = collection(db, "tugas");
@@ -108,7 +108,7 @@ export async function PUT(request: NextRequest) {
     const docId = querySnapshot.docs[0].id;
     const docRef = doc(db, "tugas", docId);
 
-    await updateDoc(docRef, { noAbsen, kelas, nilai });
+    await updateDoc(docRef, { namaLengkap, nilai });
 
     return NextResponse.json({
       status: 200,
